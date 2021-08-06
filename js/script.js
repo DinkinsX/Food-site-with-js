@@ -89,7 +89,7 @@ window.addEventListener('scroll', showModalByScroll);
 //Карточки
 
 class MenuCard { 
-    constructor(src, altSrc, title, descr, price, parentSelector) {
+    constructor(src, altSrc, title, descr, price, parentSelector, ...someClasses) {
         this.src = src;
         this.altSrc = altSrc;
         this.title = title;
@@ -97,6 +97,7 @@ class MenuCard {
         this.price = price;
         this.transfer = 73;
         this.parent = document.querySelector(parentSelector);
+        this.someClasses = someClasses;
         //this.changeToRub();
     }
 
@@ -107,21 +108,24 @@ class MenuCard {
     render() {
 
         const element = document.createElement('div');
+        if (this.someClasses.length === 0) {
+            element.classList.add('menu__item'); // Дефолтный класс
+        } else {
+            this.someClasses.forEach(className => element.classList.add(className));
+        }
+        
         element.innerHTML = `
-            <div class="menu__item">
-                <img src="${this.src}" alt="${this.altSrc}">
-                <h3 class="menu__item-subtitle">${this.title}</h3>
-                <div class="menu__item-descr">${this.descr}</div>
-                <div class="menu__item-divider"></div>
-                <div class="menu__item-price">
-                    <div class="menu__item-cost">Цена:</div>
-                    <div class="menu__item-total"><span>${this.price}</span> р/день</div>
-            </div>
+            <img src="${this.src}" alt="${this.altSrc}">
+            <h3 class="menu__item-subtitle">${this.title}</h3>
+            <div class="menu__item-descr">${this.descr}</div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+                <div class="menu__item-cost">Цена:</div>
+                <div class="menu__item-total"><span>${this.price}</span> р/день</div>
         `;
         this.parent.append(element);
 
     }
-
 
 }
 
@@ -133,7 +137,9 @@ new MenuCard(
     'Меню "Фитнес"',
     'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
     229,
-    '.menu .container'
+    '.menu .container',
+    'menu__item'
+    
 ).render(); //тут же удалится
 new MenuCard(
     'img/tabs/elite.jpg',
@@ -141,13 +147,15 @@ new MenuCard(
     'Меню “Премиум”',
     'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
     550,
-    '.menu .container'
-).render(); //тут же удалится
+    '.menu .container',
+    'menu__item'
+).render();
 new MenuCard(
     'img/tabs/post.jpg',
     'post',
     'Меню "Постное"',
     'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
     430,
-    '.menu .container'
-).render(); //тут же удалится
+    '.menu .container',
+    'menu__item'
+).render();
