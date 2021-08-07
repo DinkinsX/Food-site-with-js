@@ -58,12 +58,12 @@ const showModalByScroll = () => {
     if (window.pageYOffset + document.documentElement.clientHeight >= 
         document.documentElement.scrollHeight) {
             openModal();
-            window.addEventListener('scroll', showModalByScroll);
+            window.removeEventListener('scroll', showModalByScroll);
         }
 };
 
 modalTrigger.forEach(btn => {
-    btn.addEventListener('click', openModal)
+    btn.addEventListener('click', openModal);
 });    
 
 modalCloseBtn.addEventListener('click', () => {
