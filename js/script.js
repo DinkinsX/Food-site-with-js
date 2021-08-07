@@ -250,6 +250,8 @@ axios.get('http://localhost:3000/menu').then(data => {
     data.data.forEach(({img, altimg, title, descr, price}) => { //деструктуризация объекта
         new MenuCard(img, altimg, title, descr, price * 74, '.menu .container').render();});
 
+}).catch((error) => {
+    throw new Error(`Ошибка запроса - ${error}`)
 });
 
 //Таймер
