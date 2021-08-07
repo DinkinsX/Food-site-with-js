@@ -37,13 +37,12 @@ tabParant.addEventListener('click', e => {
 });
 
 //Модальное окно
-
 const modalTrigger = document.querySelectorAll('[data-modalButton]'),
     modal = document.querySelector('.modal'),
     modalCloseBtn = document.querySelector('[data-close]');
 
 const closeModal = () => {
-    modal.classList.toggle('show'); //если укажем класс явно в DOM
+    modal.classList.toggle('show');
     document.body.style.overflow = ''; //дефолт
 };
 
@@ -86,8 +85,60 @@ document.addEventListener('keydown', (e) => {
 
 window.addEventListener('scroll', showModalByScroll);
 
-//Карточки
+//Формы
+const forms = document.querySelectorAll('form');
+const message = {
+    loading: 'Загрузка..',
+    success: 'Спасибо! С вами скоро свяжутся',
+    error: 'Ошибка.'
+};
 
+forms.forEach(form => {
+    postData(form);
+});
+
+function postData(form) {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); //Во всех ajax запросов чтоб не перезагружалась стр
+        //Динамически создаваемый блок к форме
+        const statusMessage = document.createElement('div');
+        statusMessage.classList.add('status');
+        statusMessage.textContent = message.loading;
+        form.append(statusMessage);
+
+        const req = new XMLHttpRequest();
+        req.open('POST', 'server.php');
+        //req.setRequestHeader('Content-type', 'multipart/from-data'); //При использовании XMLHTTPRec заголовок для формывыставляется автоматом
+        req.setRequestHeader('Content-type', 'application/json'); //Для json явно указать нужно
+        const formData = new FormData(form);
+
+        const obj = {};
+        formData.forEach(function(value, key) {
+            obj[key] = value;
+        });
+        const json = JSON.stringify(obj);
+        req.send(json);
+
+        req.addEventListener('load', () => {
+            if (req.status === 200) {
+                console.log(`Ответ от сервера: ${req.response}`);
+                statusMessage.textContent = message.success;
+                form.reset();
+                setTimeout(() => {
+                    statusMessage.remove();
+                },2000);
+
+            } else {
+                statusMessage.textContent = message.error;
+            }
+        });
+
+    });
+}
+
+
+
+//Карточки
 class MenuCard { 
     constructor(src, altSrc, title, descr, price, parentSelector, ...someClasses) {
         this.src = src;
@@ -208,3 +259,4 @@ function setClock(selector, endtime) {
 }
 
 setClock('.timer', deadline);
+
