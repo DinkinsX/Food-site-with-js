@@ -41,6 +41,8 @@ function forms(formSelector, modalTimerId) {
                 }).catch((err) => {
                     console.log(err);
                     showThanksModal(message.error);
+                    form.querySelector('button').style.cssText = `display:block`;
+                    statusMessage.remove();
                 }).finally(() => form.reset());
 
         });
