@@ -32,7 +32,8 @@ function timer(id, deadline) {
             minutes = timer.querySelector('#minutes'),
             seconds = timer.querySelector('#seconds'),
             timeInterval = setInterval(updateClock, 1000);
-
+        document.querySelector('#stockTime').innerHTML = ` ${deadline}`;
+            
         updateClock();
 
         function updateClock() {

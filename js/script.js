@@ -4,6 +4,7 @@ import cards from './modules/cards';
 import forms from './modules/forms';
 import slider from './modules/slider';
 import timer from './modules/timer';
+import calc from './modules/calc';
 import {openModal} from './modules/modal';
 
 
@@ -25,6 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
         slide: '.offer__slide',
         field: '.offer__slider-inner'
     });
-    timer('.timer', '2022-01-01');
+    timer('.timer', '2022-01-01'),
+    calc();
             
 });
